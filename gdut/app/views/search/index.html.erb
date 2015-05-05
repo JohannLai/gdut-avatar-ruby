@@ -1,0 +1,12 @@
+<% content_for :container do %>
+<div class="avatar">
+    <p class="flash"></p>
+</div>
+<div class="m-form">
+    <form>
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <input class="m-input" type="number" name="sno" placeholder="请输入要查找的学号" value="" />
+        <input class="m-but" type="submit" value="查找">
+    </form>
+</div>
+<% end %>

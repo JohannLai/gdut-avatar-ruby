@@ -6,6 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module Gdut
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -21,6 +22,18 @@ module Gdut
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.autoload_paths += %W(#{config.root}/lib/gdut)
     config.active_record.raise_in_transactional_callbacks = true
+    config.before_configuration do
+      env_file = File.join(Rails.root, "config", 'local_env.yml')
+      YAML.load(File.open(env_file)).each do |key, value|
+        ENV[key.to_s] = value
+      end if File.exists?(env_file)
+    end
+    config.gd_username = ENV['GD_USERNAME']
+    config.gd_password = ENV['GD_PASSWORD']
+    config.abs_avatar_path = Rails.root.to_s + '/public/assets/avatar'
+    config.avatar_path = config.root.to_s + '/public/assets/avatar'
   end
 end
+
